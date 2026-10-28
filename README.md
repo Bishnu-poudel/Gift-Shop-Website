@@ -59,8 +59,6 @@ It runs on a stock **XAMPP** install (tested on XAMPP 8.0.30: PHP 8.0 + MariaDB 
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=giftoria
-   DB_USERNAME=root
-   DB_PASSWORD=
    ```
    If you use the web installer, set `INSTALL_TOKEN` to a long random value:
    ```bash
@@ -127,25 +125,8 @@ This needs no Composer. With Composer you can run real PHPUnit instead: `compose
 
 The suite covers the scoring rules, query parsing (synonyms, prices, typos), eSewa signatures, the state machine, validation, and the acceptance scenarios below (29 tests).
 
-## 7. Acceptance checklist
 
-| Test | Covered by | How to check by hand |
-|---|---|---|
-| A: "gift for baby girl" | `testA_…` | Search box → *gift for baby girl* |
-| B: filtered recommendations | `testB_…` | Gift Finder → Baby girl → First birthday → Princess toys + Educational toys → 1–2 years → custom 500–2,500 |
-| C: misspelled/unknown interest | `testC_…` | Search *pricess toyz*; type an unknown word in the Gift Finder's "Something else" box |
-| D: register/verify/login/wishlist/addresses/orders | `testD_…` | `/register`, then the verification link in Admin → Outbox, `/account` |
-| E: cart totals recalculated on the server | `testE_…` | Change quantities on `/cart` |
-| F/G/H: checkout, verification, duplicate callbacks | `testFGH_…`, `testKhalti…` | Checkout with eSewa (sandbox or simulator) |
-| I: marketing staff can't touch inventory or refunds | `testIJ_…` | Sign in as `marketing-staff` (demo `--staff`), open `/admin/inventory` and get 403 |
-| J: no public route grants admin | `testIJ_…` | Registration only creates customers; there are no public staff/role routes |
-| K: product manager manages products | `testK_…` | Sign in as `product-manager`, then Products → New / Publish / Deactivate |
-| L: coupon + scheduled campaign | `testL_…` | Admin → Coupons / Campaigns, set start dates in the future |
-| M: mobile UI | manual | Every storefront and admin page fits a 375 px screen with no horizontal scrolling |
-| N: last unit can't be sold twice | `testN_…` | The demo product "Rosewood Wedding Keepsake Box" has exactly 1 unit |
-| O: installation | this README | Follow section 2 on a clean XAMPP |
-
-## 8. Project structure
+## 7. Project structure
 
 ```
 giftoria/
@@ -181,15 +162,3 @@ giftoria/
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md):** production checklist, security review, backups and restore.
 - **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md):** common problems and fixes.
 - **[docs/CONVENTIONS.md](docs/CONVENTIONS.md):** coding conventions for contributors.
-
-### What still needs your input
-- **Credentials:**
-  - Khalti sandbox/live secret key.
-  - eSewa production merchant code and secret, after eSewa merchant onboarding.
-  - SMTP account.
-- **Content:**
-  - Real product photography and copy.
-  - Your store address and phone (Admin → Settings).
-  - Delivery zone rates.
-  - Legal review of the policy pages in `resources/views/storefront/pages/`.
-- **Optional AI re-ranking:** `AI_PROVIDER` is reserved for a future provider integration. The Gift Finder is fully rule-based and does not call any AI service.
